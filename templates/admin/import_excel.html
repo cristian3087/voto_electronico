@@ -1,0 +1,17 @@
+<!-- templates/admin/import_excel.html -->
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+
+<h2>Importar Personas desde Excel</h2>
+
+    <form method="post" enctype="multipart/form-data" style="display: inline-block;">
+        {% csrf_token %}
+        <div style="border: 2px solid rgb(211, 212, 211);padding:5px;display: flex;justify-content: center;border-radius: 5px;">
+        {{ form.excel_file}}
+        <button type="submit" style="margin-left: 3px; display: inline;text-align: center; padding: 2px 6px;" class="button">Importar</button>
+        </div>
+    </form>
+
+{% endblock %}

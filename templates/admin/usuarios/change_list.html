@@ -1,0 +1,8 @@
+<!-- templates/admin/myapp/persona/change_list.html -->
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+<div class="object-tools">
+    <a href="{% url 'admin:import_excel' %}" class="addlink btn bg-primary">Importar Personas desde Excel</a>
+</div>
+{% endblock %}
