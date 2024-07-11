@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EleccionesConfig(AppConfig):
+class EleccionConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'elecciones'
+    name = 'eleccion'
