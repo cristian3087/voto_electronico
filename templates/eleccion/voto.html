@@ -1,0 +1,135 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Voto</title>
+    <style>
+         body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+
+        }
+        .componente{
+            display: inline-block;
+            text-align: center ;border:2px solid orange ;
+            margin: 10px;width: 200px; 
+            border-radius:5px;padding: 10px;
+        }
+        .componente img{
+            border-radius: 50%;
+            border: 3px solid rgb(131, 129, 129);
+            object-fit: cover;
+            width: 150px;
+            height:200px;
+            background-color: black;
+        }
+        .caja{
+            height: 50px; border:2px solid orange;
+            background-color: rgb(248, 250, 249);
+        }
+        .caja hr{
+            width: 80%;
+            height: 3px;
+            background-color: rgb(66, 66, 70);
+            border-radius: 2px;
+        }
+        .caja .raya{
+            display: none;
+            position: absolute;
+            z-index: 100;
+            transform:translate(70%,0px) rotate(-45deg);
+            width: 65px;
+            background-color: tomato;
+            transition: 1s;
+            
+           
+        }
+        .candidatos{
+           text-align: center;
+
+            
+            
+        }
+       
+        h3{
+            text-align: center;
+            font-weight: bolder;
+            margin-bottom: 40px;
+        }
+
+    </style>
+
+   
+</head>
+<body>
+    <header class="container">
+        <b class="btn waves-effect waves-light grey darken-4 lighten-2">Usuario: [{{persona}}]</b>
+        <h3>{{title}}</h3>
+    </header>
+
+        <main>
+
+        <div class="container candidatos" >
+                {%for candidato in candidatos%}
+                <div class="componente">
+                    <b>({{candidato.lista.nombre}}) </b><br>{{candidato.nombres}}
+                    <img src="media/{{candidato.foto}}" alt="{{candidato.lista}}">
+                    <p>{{candidato.cargo.nombre}}</p>
+                    <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{candidato.id}}','{{candidato.lista.id}}','{{candidato}}','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                        <hr class="raya">  <hr> 
+                    </div>
+                </div>
+                {%endfor%}  
+        </div>
+        </main>
+        <footer class="page-footer">
+            <div class="container">
+              <div class="row">
+                <div class="col l6 s12">
+                  <h5 class="white-text">Footer Content</h5>
+                  <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                </div>
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container">
+              © 2014 Copyright @cristianPC
+              <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+              </div>
+            </div>
+          </footer>
+
+
+
+          <script>
+            const caja=document.querySelector(".caja");
+            caja.addEventListener('mouseover',(e)=>{
+            });
+            function voto (e){
+
+                e.children[0].style.display="block";
+                e.style.cursor="pointer";
+            }
+            function votoout(e){
+                e.children[0].style.display="none";
+            }
+            function eleccion(usuario,candidato,lista,cand,list){
+              
+                //alert(`Voto por -> ${candidato} ${lista}`);
+               let v=confirm("Esta seguro de votar por: "+cand+ " ("+ list.toUpperCase()+")");
+                if (v==true){
+                    location.href="votos/eleccion?u="+usuario+"&c="+candidato;
+                }
+            }
+    </script>
+</body>
+</html>
