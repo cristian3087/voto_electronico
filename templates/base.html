@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+     <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <title>Login</title>
+</head>
+<body>
+
+    <header>
+    <nav class="nav">
+    <!--<ul>
+            <li><a href="resultados/" >Resultados</a></li>
+            <li><a href="#" >Wiki</a></li>
+            <li><a href="#">Preguntas</a></li>
+        </ul>-->
+        <b>SISTEMA DE VOTOS ELECTRÓNICOS</b>
+     </nav>
+    </header>
+    {%block principal%}
+    {%endblock%}
+
+    {%block footer%}
+    {%endblock%}
+    <footer class="page-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Footer Content</h5>
+              <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          © 2014 Copyright @cristianPC
+          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+          </div>
+        </div>
+      </footer>
+    
+
+    {%block javascript %}
+    {%endblock%}
+</body>
+</html>
