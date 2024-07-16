@@ -3,22 +3,31 @@
   <main class="marco-login container">
     <div class="row">
       <div class="col s12 m6"> 
+          
           <div class="card-panel caja-login">
-          <form  method="post" autocomplete="off">
-            {% csrf_token %}
-              <br/>
-              <label class="flow-text" for="">Ingrese su identificaión</label>
-              <div>
-                <input type="text" name="user" id="user" placeholder="Escriba su Usuario">
-              </div>
-              <div>
-                      <input class="flow-text" type="password" placeholder="******" name="pass" id="pass" maxlength="10" value="">
-              </div>
-                  <input class="waves-effect waves-light btn" type="submit" value="Ingresar">
-          </form>
+            <form  method="post" autocomplete="off">
+              {% csrf_token %}
+                <br/>
+                <label class="flow-text" for="">Ingrese su identificaión</label>
+                <div>
+                  <input type="text" name="user" id="user" placeholder="Escriba su Usuario">
+                </div>
+                <div>
+                        <input class="flow-text" type="password" placeholder="******" name="pass" id="pass" maxlength="10" value="">
+                </div>
+                    <input class="waves-effect waves-light btn" type="submit" value="Ingresar">
+                    {%if alerta%}
+                    <div class="alert">
+                      Usuario Incorrecto
+                    </div>
+                    {%endif%}
+            </form>
           </div>
+         
         </div>
       </div>
+     
+      
   </main>
 {%endblock%}
 

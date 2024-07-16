@@ -9,7 +9,7 @@ class Periodo(BaseModel):
     def __str__(self) -> str:
         estado = '✔️' if self.activo else '❌'
 
-        return f'{self.nombre} ({self.inicio}-{self.fin}) {estado}'
+        return f'{self.nombre} ({self.inicio} / {self.fin}) {estado}'
     
 class Entidad(BaseModel):
     nombre = models.CharField(max_length=60)

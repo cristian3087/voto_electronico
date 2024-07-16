@@ -7,10 +7,10 @@ main {
     flex: 1 0 auto;
 }
 .marco-login{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 100%; 
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-width: 100%; 
   
 }
 .row .col .caja-login{           
@@ -33,4 +33,15 @@ main {
     border: 1px solid white; 
     text-align: center;
     font-size: 18pt;
+}
+.alert{
+    display: block;
+    text-align: center;
+    background-color: bisque;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    padding: 5px;
+    color: rgb(238, 110, 115);
+    font-weight: bold;
 }
