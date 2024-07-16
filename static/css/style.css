@@ -45,3 +45,17 @@ main {
     color: rgb(238, 110, 115);
     font-weight: bold;
 }
+
+.notification {
+    animation: fadeOut 10s ease forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}

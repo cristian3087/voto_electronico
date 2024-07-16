@@ -1,3 +1,5 @@
 from django.contrib import admin
+from eleccion.models import Cargo, Lista, Candidato
 
-# Register your models here.
+admin.site.register([Cargo, Lista, Candidato])
+

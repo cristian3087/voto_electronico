@@ -1,4 +1,4 @@
-# admin.py
+"""Administrador Modelos"""
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import render, redirect
@@ -6,9 +6,10 @@ from django.contrib import messages
 import pandas as pd
 from .forms import UploadExcelForm
 from django.contrib.auth.models import User
-from usuarios.models import Persona, Cargo, Lista, Candidato
+from usuarios.models import Persona
 
 class PersonaAdmin(admin.ModelAdmin):
+    """Personalizar la lista de personas"""
     list_display = ('identificacion', 'nombres', 'apellidos', 'email', 'user')
     search_fields = ('identificacion', 'nombres', 'apellidos', 'email')
 
@@ -20,6 +21,7 @@ class PersonaAdmin(admin.ModelAdmin):
         return custom_urls + urls
 
     def import_excel(self, request):
+        """Leer Archivo e importar"""
         if request.method == "POST":
             form = UploadExcelForm(request.POST, request.FILES)
             if form.is_valid():
@@ -31,7 +33,7 @@ class PersonaAdmin(admin.ModelAdmin):
                     nombres = row['nombres']
                     apellidos = row['apellidos']
                     email = row['email']
-
+                    print("Nº:", index)
                     # Crear usuario
                     user, created = User.objects.get_or_create(username=identificacion, email=email)
                     if created:
@@ -41,15 +43,14 @@ class PersonaAdmin(admin.ModelAdmin):
                         user.save()
 
                     # Crear persona
-                    Persona.objects.create(
+                    Persona(
                         identificacion=identificacion,
                         nombres=nombres,
                         apellidos=apellidos,
                         email=email,
                         user=user
-                    )
-
-                messages.success(request, "Las personas se han importado con éxito.")
+                    ).save()
+                    messages.success(request, "Las personas se han importado con éxito.")
                 return redirect("..")
         else:
             form = UploadExcelForm()
@@ -60,4 +61,4 @@ class PersonaAdmin(admin.ModelAdmin):
         return render(request, "admin/import_excel.html", context)
 
 admin.site.register(Persona, PersonaAdmin)
-admin.site.register([Cargo, Lista, Candidato])
+

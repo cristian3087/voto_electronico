@@ -10,15 +10,18 @@
                 <br/>
                 <label class="flow-text" for="">Ingrese su identificaión</label>
                 <div>
-                  <input type="text" name="user" id="user" placeholder="Escriba su Usuario">
+                  <input type="text" name="user" id="user" placeholder="Escriba su Usuario" required>
                 </div>
                 <div>
-                        <input class="flow-text" type="password" placeholder="******" name="pass" id="pass" maxlength="10" value="">
+                        <input class="flow-text" type="password" placeholder="******" name="pass" required id="pass" maxlength="10" value="">
                 </div>
                     <input class="waves-effect waves-light btn" type="submit" value="Ingresar">
-                    {%if alerta%}
-                    <div class="alert">
-                      Usuario Incorrecto
+                    {%for msn in messages%}
+                      {{ msn.tag }}
+                    {%endfor%}
+                    {%if error%}
+                    <div class="alert notification">
+                      {{error}}
                     </div>
                     {%endif%}
             </form>
