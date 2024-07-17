@@ -18,6 +18,10 @@ class Lista(BaseModel):
     def __str__(self):
         return f'({self.pk}) {self.nombre} {self.lema}'
     
+    @property
+    def candidatos(self):
+        return Candidato.objects.filter(lista_id=self.id)
+    
     
 class Candidato(BaseModel):
     imagen = models.ImageField(upload_to="img/candidatos")

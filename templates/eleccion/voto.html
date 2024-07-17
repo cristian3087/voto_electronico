@@ -132,7 +132,7 @@
           <script>
            /* import Swal from 'sweetalert2'
             const Swal = require(sweetalert2)*/
-
+            const url = window.location.href;
             const caja=document.querySelector(".caja");
             caja.addEventListener('mouseover',(e)=>{
             });
@@ -159,27 +159,14 @@
                   }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
+                    location.href=url+"?u="+usuario+"&c="+candidato;
                       Swal.fire("Voto Guardado", "", "success");
                       const objVoto={
                         user_id: usuario,
                         candidato_id:candidato,
                         action:'votar'
                       }
-                      fetch('/eleccion', {
-                        method:'POST',
-                        headers: {
-                        },
-                        body: JSON.stringify(objVoto)
-                         })
-                        .then(response => response.json())
-                        .then(data => {
-                                console.log(data);
-                        })
-                        .catch(error => {
-                                console.error('Error fetching data:', error);
-                        });
-
-                    //  location.href="?u="+usuario+"&c="+candidato;
+                      location.href="?u="+usuario+"&c="+candidato;
                     }
                   });
             }
