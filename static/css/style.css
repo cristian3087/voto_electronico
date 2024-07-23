@@ -59,3 +59,12 @@ main {
         display: none;
     }
 }
+
+.contenedor-botones{
+    display: flex;
+    justify-content: flex-end;
+    /*align-items: center;*/
+   }
+.btn{
+    border-radius: 6px;
+}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{%block title %}resultados{%endblock%}
+
+{%block principal%}
+<section class="container contenedor-botones">
+    <button class="btn btn-print" onclick="print()"><i class="material-icons">print</i></button>
+</section>
+<h1 class="text container">Resultados</h1>
+<main class="marco-login container">
+    
+    <div class="container">
+        <canvas id="myChart">
+        </canvas>
+    </div>
+    <table class="container">
+        <thead>
+          <tr>
+              <th>LISTAS</th>
+              <th>REPRESENTANTE</th>
+              <th>TOTAL VOTOS</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {%for r in listas%}  
+          <tr>
+            <td>{{r.nombre}}</td>
+            <td>{{r.representante.persona.nombres_completos}}</td>
+            <td>{{r.votos}}</td>
+          </tr>
+          {%endfor%}
+          <tr>
+            <td>Blancos</td>
+            <td></td>
+            <td>{{listas.first.votos_blancos}}</td>
+          </tr>
+          <tr>
+            <td>Nulos</td>
+            <td></td>
+            <td>{{listas.first.votos_nulos}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">TOTAL</th>
+                <td>{{listas.first.votos_totales}}</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+</main>
+{%endblock%}
+{%block javascript %}
+<script>
+    var ctx=document.getElementById("myChart").getContext("2d");
+    var rows = document.querySelectorAll('tbody tr');
+    let nombres= [];
+    let votos = [];
+    for (var i = 0; i < rows.length; i++) {
+        var firstColumnValue = rows[i].querySelector('td:first-child').textContent;
+        var thirdColumnValue = rows[i].querySelector('td:nth-child(3)').textContent;
+        nombres.push(firstColumnValue);
+        votos.push(thirdColumnValue);
+    }
+    const myChart= new Chart(ctx,{
+      type:"bar",
+      data:{
+        labels:nombres,
+        datasets:[{
+            label:"Votos",
+            data:votos,
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(153, 102, 255, 0.8)'],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(153, 102, 255)',
+            'rgb(255, 205, 86)'],
+            borderWidth:1
+          }]
+      },
+      
+    });
+  </script>
+{%endblock%}

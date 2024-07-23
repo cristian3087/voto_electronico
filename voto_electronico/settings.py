@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    "/var/www/static/",
+#    "/var/www/static/",
 ]
 
 # Default primary key field type
@@ -133,3 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = f'{BASE_DIR}/media'
+
+#LOGIN_REDIRECT_URL = '/'

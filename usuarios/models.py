@@ -14,7 +14,7 @@ class Persona(BaseModel):
     
     @property
     def nombres_completos(self):
-        "Nombres coompletos"
+        "Nombres completos"
         return f"{self.nombres} {self.apellidos}"
     
     def __str__(self) -> str:

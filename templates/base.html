@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
      <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'css/style.css'%}">
-    <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    {%block css%} {%endblock%}
+    <title>{%block title%} {%endblock%}</title>
 </head>
 <body>
-
     <header>
     <nav class="nav">
-    <!--<ul>
+     <!--<ul>
             <li><a href="resultados/" >Resultados</a></li>
             <li><a href="#" >Wiki</a></li>
             <li><a href="#">Preguntas</a></li>
@@ -23,24 +27,21 @@
         <b>SISTEMA DE VOTOS ELECTRÓNICOS</b>
      </nav>
     </header>
-    {%block principal%}
-    {%endblock%}
-
-    {%block footer%}
-    {%endblock%}
+    {%block principal%}  {%endblock%}     
     <footer class="page-footer">
-        <div class="container">
+      <!----  <div class="container">
           <div class="row">
             <div class="col l6 s12">
               <h5 class="white-text">Footer Content</h5>
               <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="footer-copyright">
           <div class="container">
-          © 2014 Copyright @cristianPC
-          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            © 2024 Copyright @cristianPC
+            {%block footer%}
+            {%endblock%}
           </div>
         </div>
       </footer>
@@ -48,5 +49,6 @@
 
     {%block javascript %}
     {%endblock%}
+    
 </body>
 </html>

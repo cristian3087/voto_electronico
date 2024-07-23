@@ -1,175 +1,168 @@
+{% extends 'base.html' %}
 {%load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Voto</title>
+{%block css%}
     <style>
-         body {
+        body {
             display: flex;
             min-height: 100vh;
             flex-direction: column;
         }
-
+        
         main {
             flex: 1 0 auto;
 
-        }
-        .componente{
-            display: inline-block;
-            text-align: center ;border:2px solid orange ;
-            margin: 10px;width: 200px; 
-            border-radius:5px;padding: 10px;
-        }
-        .componente img{
-            border-radius: 50%;
-            border: 3px solid rgb(131, 129, 129);
-            object-fit: cover;
-            width: 150px;
-            height:200px;
-            background-color: black;
-        }
-        .caja{
-            height: 50px; border:2px solid orange;
-            background-color: rgb(248, 250, 249);
-        }
-        .caja hr{
-            width: 80%;
-            height: 3px;
-            background-color: rgb(66, 66, 70);
-            border-radius: 2px;
-        }
-        .caja .raya{
-            display: none;
-            position: absolute;
-            z-index: 100;
-            transform:translate(70%,0px) rotate(-45deg);
-            width: 65px;
-            background-color: tomato;
-            transition: 1s;
+            }
+            .componente{
+                display: inline-block;
+                text-align: center ;border:2px solid orange ;
+                margin: 10px;width: 200px; 
+                border-radius:5px;padding: 10px;
+            }
+            .componente img{
+                border-radius: 50%;
+                border: 3px solid rgb(131, 129, 129);
+                object-fit: cover;
+                width: 150px;
+                height:200px;
+                background-color: black;
+            }
+            .caja{
+                height: 50px; border:2px solid orange;
+                background-color: rgb(248, 250, 249);
+            }
+            .caja hr{
+                width: 80%;
+                height: 3px;
+                background-color: rgb(66, 66, 70);
+                border-radius: 2px;
+            }
+            .caja .raya{
+                display: none;
+                position: absolute;
+                z-index: 100;
+                transform:translate(70%,0px) rotate(-45deg);
+                width: 65px;
+                background-color: tomato;
+                transition: 1s;
+                
+                
+            }
+            .candidatos{
+                text-align: center;
+                
+                
+                
+            }
             
-           
-        }
-        .candidatos{
-           text-align: center;
-
+            h3{
+                text-align: center;
+                font-weight: bolder;
+                margin-bottom: 40px;
+            }
             
-            
-        }
-       
-        h3{
-            text-align: center;
-            font-weight: bolder;
-            margin-bottom: 40px;
-        }
-
     </style>
+{%endblock%} 
 
-   
-</head>
-<body>
-    <header class="container">
+{%block title%} VOTO ELECTRONICO {%endblock%}
+
+{%block principal%}
+    <section class="container">
         <b class="btn waves-effect waves-light grey darken-4 lighten-2">Usuario: [{{persona}}]</b>
         <h3>{{title}}</h3>
-    </header>
-
+    </section>
         <main>
-
         <div class="container candidatos" >
          
-                {%for candidato in candidatos%}
+                {%for lista in listas%}
                 <div class="componente">
-                    <b>({{candidato.lista.nombre}}) </b><br>{{candidato.persona.nombres}}
-                    <img src="{{candidato.imagen.url}}" alt="{{candidato.lista}}">
-                    <p>{{candidato.cargo.nombre}}</p>
-                    <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{candidato.id}}','{{candidato.lista.id}}','{{candidato}}','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
-                        <hr class="raya">  <hr> 
-                    </div>
+                    <b>({{lista.nombre}}) </b><br>{{lista.representante.persona.nombres_completos}}
+                    <img src="{{lista.representante.imagen.url}}" alt="{{lista.representante.persona}}">
+                    <p>{{lista.representante.cargo|upper}}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{lista.id}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                            <hr class="raya">  <hr> 
+                        </div>
+                        <input type="hidden" name="action" value="guardar_voto"> 
+                        <input type="hidden" name="persona" value="{{persona.id}}"> 
+                        <input type="hidden" name="lista" value="{{lista.id}}"> 
+                        <input class="btn button" type="submit" value="Votar"> 
+                    </form>
+                    
                 </div>
                 {%endfor%}  
                 <div class="componente">
                     <b>(VOTO) </b><br>BLANCO
                     <img src="{%static 'images/votos/blanco.png'%}" alt="{{candidato.lista}}">
-                    <p>Blanco</p>
-                    <div onmouseout="votoout(this)" onclick="eleccion('0','BLANCO','0','0','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
-                        <hr class="raya">  <hr> 
-                    </div>
+                    <p>BLANCO</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','BLANCO','0','0','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                            <hr class="raya">  <hr> 
+                        </div>  
+                        <input type="hidden" name="action" value="guardar_voto"> 
+                        <input type="hidden" name="persona" value="{{persona.id}}"> 
+                        <input type="hidden" name="lista" value="nulo"> 
+                        <input class="btn button" type="submit" value="Votar"> 
+                    </form>
                 </div>
                 <div class="componente">
                     <b>(VOTO) </b><br>NULO
                     <img src="{%static 'images/votos/nulo1.png'%}" alt="{{candidato.lista}}">
                     <p>Anula</p>
-                    <div onmouseout="votoout(this)" onclick="eleccion('0','NULO','0','0','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
-                        <hr class="raya">  <hr> 
-                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','NULO')" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                            <hr class="raya">  <hr>
+                        <input type="hidden" name="action" value="guardar_voto"> 
+                        <input type="hidden" name="persona" value="{{persona.id}}"> 
+                        <input type="hidden" name="lista" value="nulo"> 
+                        </div>
+                        <input class="btn button" type="submit" value="Votar">
+                    </form>
                 </div>
             
         </div>
         </main>
-        <footer class="page-footer">
-            <div class="container">
-              <div class="row">
-                <div class="col l6 s12">
-                  <h5 class="white-text">Footer Content</h5>
-                  <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-                </div>
-              </div>
-            </div>
-            <div class="footer-copyright">
-              <div class="container">
-              © 2014 Copyright @cristianPC
-              <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-              </div>
-            </div>
-          </footer>
+{%endblock%}
 
 
+{%block javascript %}
+    <script>
+    /* import Swal from 'sweetalert2'
+    const Swal = require(sweetalert2)*/
+    const url = window.location.href;
+    const caja=document.querySelector(".caja");
+    caja.addEventListener('mouseover',(e)=>{
+    });
+    function voto (e){
 
-          <script>
-           /* import Swal from 'sweetalert2'
-            const Swal = require(sweetalert2)*/
-            const url = window.location.href;
-            const caja=document.querySelector(".caja");
-            caja.addEventListener('mouseover',(e)=>{
+        e.children[0].style.display="block";
+        e.style.cursor="pointer";
+    }
+    function votoout(e){
+        e.children[0].style.display="none";
+    }
+    function eleccion(usuario,lista){
+        Swal.fire({
+            title: `¿Esta seguro de votar por: ${lista}?`,
+            showDenyButton: true,
+            confirmButtonText: "SI",
+            denyButtonText: `NO`,
+            icon: "info"
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+            location.href=url+"?u="+usuario+"&c="+lista;
+                Swal.fire("Voto Guardado", "", "success");
+                const objVoto={
+                user_id: usuario,
+                candidato_id:candidato,
+                action:'votar'
+                }
+                location.href="?u="+usuario+"&c="+candidato;
+            }
             });
-            function voto (e){
-
-                e.children[0].style.display="block";
-                e.style.cursor="pointer";
-            }
-            function votoout(e){
-                e.children[0].style.display="none";
-            }
-            function eleccion(usuario,candidato){
-              
-                const xhr = new XMLHttpRequest();
-                Swal.fire({
-                    title: `¿Esta seguro de votar por: ${candidato}?`,
-                    //showCancelButton: true,
-                    showDenyButton: true,
-                    confirmButtonText: "SI",
-                   // cancelButtonText: `CANCELAR`,
-                    denyButtonText: `NO GUARDAR`,
-                    
-                    icon: "info"
-                  }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                    location.href=url+"?u="+usuario+"&c="+candidato;
-                      Swal.fire("Voto Guardado", "", "success");
-                      const objVoto={
-                        user_id: usuario,
-                        candidato_id:candidato,
-                        action:'votar'
-                      }
-                      location.href="?u="+usuario+"&c="+candidato;
-                    }
-                  });
-            }
-    </script>
-</body>
-</html>
+    }
+</script>
+{%endblock%}
