@@ -2,10 +2,12 @@
 import json
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render,redirect
+from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 from usuarios.models import Persona
 from institucion.models import Periodo
 from .models import Candidato, Lista, Urna
+from weasyprint import HTML
 
 # Create your views here.
 
@@ -19,6 +21,18 @@ def resultados(request):
     votos.append(listas.first().votos_blancos)
     context['lst'] = lst
     context['votos'] = resultados
+    if 'action' in request.GET:
+        doc_html =get_template('eleccion/resultados.html')
+        render_html = doc_html.render(context)
+        try:
+            pdf_file = HTML(string=render_html).write_pdf()
+            response = HttpResponse(pdf_file,content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="resultados.pdf"'
+            return response
+        except Exception as ex:
+            print(ex)
+        
+        
     
     return render(request, 'eleccion/resultados.html', context)
     

@@ -4,6 +4,7 @@
 {%block principal%}
 <section class="container contenedor-botones">
     <button class="btn btn-print" onclick="print()"><i class="material-icons">print</i></button>
+    <button onclick="abrirPopup('?action=reporte')" target="_blank" class="btn" style="margin-left: 5px; background:rgb(219, 157, 157);">weasyprint</>
 </section>
 <h1 class="text container">Resultados</h1>
 <main class="container">
@@ -85,5 +86,9 @@
       },
       
     });
+
+    function abrirPopup(URL) {
+      window.open(URL, 'Nombre de la ventana', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,width=300,height=200,left=390,top=50');
+    }
   </script>
 {%endblock%}
