@@ -57,3 +57,5 @@ class Urna(BaseModel):
     lista = models.ForeignKey(Lista, on_delete=models.CASCADE, null=True, blank=True)
     tipo = models.CharField(default='VOTO', max_length=6)
     
+    def __str__(self) -> str:
+        return f'{self.persona.user}, {self.lista}'

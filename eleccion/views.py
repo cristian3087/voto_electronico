@@ -53,4 +53,8 @@ def eleccion(request):
         #context['candidatos'] = Candidato.objects.all()
         context['periodo'] = Periodo.objects.all().order_by('id').first()
         context['listas'] = Lista.objects.filter(periodo=periodo)
+        context['listas_bn'] = [
+            {'voto':'BLANCO', 'img': '/static/images/votos/blanco.png'},
+            {'voto':'NULO', 'img': '/static/images/votos/nulo1.png'},
+            ]
         return render(request, 'eleccion/voto.html', context)

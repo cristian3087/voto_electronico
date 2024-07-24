@@ -68,3 +68,50 @@ main {
 .btn{
     border-radius: 6px;
 }
+.caja{
+    position:relative;
+    display:flex;
+    text-align: center; 
+    height: 50px; 
+    border:2px solid orange;
+    align-items:center;
+}
+.componente{
+    display: inline-block;
+    text-align: center ;border:2px solid orange ;
+    margin: 10px;width: 200px; 
+    border-radius:5px;padding: 10px;
+}
+.componente img{
+    border-radius: 50%;
+    border: 3px solid rgb(131, 129, 129);
+    object-fit: cover;
+    width: 150px;
+    height:200px;
+    background-color: black;
+}
+.caja hr{
+    width: 80%;
+    height: 3px;
+    background-color: rgb(66, 66, 70);
+    border-radius: 2px;
+}
+.caja .raya{
+    display: none;
+    position: absolute;
+    z-index: 100;
+    transform:translate(70%,0px) rotate(-45deg);
+    width: 65px;
+    background-color: tomato;
+    transition: 1s;
+}
+.candidatos{
+    text-align: center;
+}
+.usuario{
+    margin: 0;
+}
+.usuario mark{
+    padding: 2px;
+    border-radius: 5px;
+}

@@ -1,126 +1,46 @@
 {% extends 'base.html' %}
 {%load static %}
-{%block css%}
-    <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-        
-        main {
-            flex: 1 0 auto;
-
-            }
-            .componente{
-                display: inline-block;
-                text-align: center ;border:2px solid orange ;
-                margin: 10px;width: 200px; 
-                border-radius:5px;padding: 10px;
-            }
-            .componente img{
-                border-radius: 50%;
-                border: 3px solid rgb(131, 129, 129);
-                object-fit: cover;
-                width: 150px;
-                height:200px;
-                background-color: black;
-            }
-            .caja{
-                height: 50px; border:2px solid orange;
-                background-color: rgb(248, 250, 249);
-            }
-            .caja hr{
-                width: 80%;
-                height: 3px;
-                background-color: rgb(66, 66, 70);
-                border-radius: 2px;
-            }
-            .caja .raya{
-                display: none;
-                position: absolute;
-                z-index: 100;
-                transform:translate(70%,0px) rotate(-45deg);
-                width: 65px;
-                background-color: tomato;
-                transition: 1s;
-                
-                
-            }
-            .candidatos{
-                text-align: center;
-                
-                
-                
-            }
-            
-            h3{
-                text-align: center;
-                font-weight: bolder;
-                margin-bottom: 40px;
-            }
-            
-    </style>
-{%endblock%} 
-
 {%block title%} VOTO ELECTRONICO {%endblock%}
-
 {%block principal%}
     <section class="container">
-        <b class="btn waves-effect waves-light grey darken-4 lighten-2">Usuario: [{{persona}}]</b>
+        <p class="usuario btn waves-effect waves-light grey darken-4 lighten-2">Usuario: <mark> {{persona.nombres_completos}}</mark></p>
         <h3>{{title}}</h3>
     </section>
         <main>
-        <div class="container candidatos" >
-         
+        <div class="container candidatos" > 
                 {%for lista in listas%}
                 <div class="componente">
                     <b>({{lista.nombre}}) </b><br>{{lista.representante.persona.nombres_completos}}
                     <img src="{{lista.representante.imagen.url}}" alt="{{lista.representante.persona}}">
                     <p>{{lista.representante.cargo|upper}}</p>
-                    <form method="post">
+                    <form class="form" method="post">
                         {% csrf_token %}
-                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{lista.id}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{lista.id}}', this);" onmouseover="voto(this)" class="caja">
                             <hr class="raya">  <hr> 
                         </div>
                         <input type="hidden" name="action" value="guardar_voto"> 
                         <input type="hidden" name="persona" value="{{persona.id}}"> 
                         <input type="hidden" name="lista" value="{{lista.id}}"> 
-                        <input class="btn button" type="submit" value="Votar"> 
                     </form>
-                    
                 </div>
                 {%endfor%}  
+                
+                {%for otro in listas_bn %}
                 <div class="componente">
-                    <b>(VOTO) </b><br>BLANCO
-                    <img src="{%static 'images/votos/blanco.png'%}" alt="{{candidato.lista}}">
-                    <p>BLANCO</p>
+                    <b>(VOTO) </b><br>{{otro.voto}}
+                    <img src="{{otro.img}}" alt="{{otro.voto}}">
+                    <p>{{otro.voto}}</p>
                     <form method="post">
                         {% csrf_token %}
-                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','BLANCO','0','0','{{candidato.lista.nombre}}');" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
+                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','{{otro}}', this);" onmouseover="voto(this)" class="caja">
                             <hr class="raya">  <hr> 
                         </div>  
                         <input type="hidden" name="action" value="guardar_voto"> 
                         <input type="hidden" name="persona" value="{{persona.id}}"> 
                         <input type="hidden" name="lista" value="nulo"> 
-                        <input class="btn button" type="submit" value="Votar"> 
                     </form>
                 </div>
-                <div class="componente">
-                    <b>(VOTO) </b><br>NULO
-                    <img src="{%static 'images/votos/nulo1.png'%}" alt="{{candidato.lista}}">
-                    <p>Anula</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div onmouseout="votoout(this)" onclick="eleccion('{{persona.id}}','NULO')" onmouseover="voto(this)" class="caja {{candidato}}" style="position:relative;display:flex;text-align: center; height: 50px; border:2px solid orange;align-items:center;">
-                            <hr class="raya">  <hr>
-                        <input type="hidden" name="action" value="guardar_voto"> 
-                        <input type="hidden" name="persona" value="{{persona.id}}"> 
-                        <input type="hidden" name="lista" value="nulo"> 
-                        </div>
-                        <input class="btn button" type="submit" value="Votar">
-                    </form>
-                </div>
+                {%endfor%}
             
         </div>
         </main>
@@ -143,7 +63,9 @@
     function votoout(e){
         e.children[0].style.display="none";
     }
-    function eleccion(usuario,lista){
+
+    function eleccion(usuario,lista,form){
+        formVoto = form.parentNode
         Swal.fire({
             title: `¿Esta seguro de votar por: ${lista}?`,
             showDenyButton: true,
@@ -153,15 +75,12 @@
             }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-            location.href=url+"?u="+usuario+"&c="+lista;
                 Swal.fire("Voto Guardado", "", "success");
-                const objVoto={
-                user_id: usuario,
-                candidato_id:candidato,
-                action:'votar'
-                }
-                location.href="?u="+usuario+"&c="+candidato;
+                setInterval(() =>{
+                    formVoto.submit();
+                },2000)                
             }
+            //location.href=url+"?u="+usuario+"&c="+lista;
             });
     }
 </script>
