@@ -59,3 +59,6 @@ class Urna(BaseModel):
     
     def __str__(self) -> str:
         return f'{self.persona.user}, {self.lista}'
+
+    class Meta:
+        ordering = ['persona__user_id']

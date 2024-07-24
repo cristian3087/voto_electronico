@@ -19,3 +19,4 @@ class Persona(BaseModel):
     
     def __str__(self) -> str:
         return f'{self.identificacion} {self.nombres} {self.apellidos}'
+    
